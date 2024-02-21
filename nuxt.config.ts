@@ -17,4 +17,6 @@ export default defineNuxtConfig({
       link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     },
   },
+
+  modules: ['@samk-dev/nuxt-vcalendar', '@pinia/nuxt']
 })
