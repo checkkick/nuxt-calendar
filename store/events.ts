@@ -8,7 +8,7 @@ interface IEvent {
 
 interface IState {
   id: number
-  events: Map<Date, IEvent[]>
+  events: Map<string, IEvent[]>
 }
 
 export const events = defineStore('events', {
@@ -18,7 +18,7 @@ export const events = defineStore('events', {
   }),
 
   actions: {
-    ADD_EVENT(date: Date, title: string, description: string) {
+    ADD_EVENT(date: string, title: string, description: string) {
       if (!this.events.has(date)) {
         this.events.set(date, [{ id: this.id++, title, description }])
       } else {
@@ -31,7 +31,7 @@ export const events = defineStore('events', {
       }
     },
 
-    REMOVE_EVENT(date: Date, id: number) {
+    REMOVE_EVENT(date: string, id: number) {
       let eventsOnDate = this.events.get(date)
       eventsOnDate = eventsOnDate?.filter(event => event.id !== id)
 

@@ -1,6 +1,6 @@
 <template>
   <div class="list vc-container vc-monthly vc-blue vc-light vc-bordered">
-    <h2 class="list__title">События на {{ date.toLocaleDateString() }}</h2>
+    <h2 class="list__title">События на {{ date?.toLocaleDateString() }}</h2>
     <ul
       class="events"
       v-for="item in dateEvents.get(date.toLocaleDateString())"
@@ -20,25 +20,28 @@
 
     <h3
       class="notEvents"
-      v-if="!dateEvents.get(date.toLocaleDateString()) || dateEvents.get(date.toLocaleDateString()).length === 0"
+      v-if="!dateEvents.get(date.toLocaleDateString()) || dateEvents.get(date.toLocaleDateString())?.length === 0"
     >Нет запланированных событий</h3>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { events } from '@/store/events';
 
 const props = defineProps({
   date: {
     type: Date,
+    default: () => new Date()
   }
 })
 
 const useEventsStore = events()
 const dateEvents = computed(() => useEventsStore.EVENTS)
 
-function removeEvent(id) {
-  useEventsStore.REMOVE_EVENT(props.date.toLocaleDateString(), id)
+function removeEvent(id: number) {
+  if (props.date) {
+    useEventsStore.REMOVE_EVENT(props.date.toLocaleDateString(), id)
+  }
 }
 </script>
 

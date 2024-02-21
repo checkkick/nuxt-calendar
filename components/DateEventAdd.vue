@@ -1,7 +1,7 @@
 <template>
   <div class="event vc-container vc-monthly vc-blue vc-light vc-bordered">
     <h2 class="event__title">Добавить событие</h2>
-    <p class="event__date">Дата: {{ date.toLocaleDateString() }}</p>
+    <p class="event__date">Дата: {{ date?.toLocaleDateString() }}</p>
 
     <input
       class="event__input"
@@ -26,12 +26,13 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { events } from '@/store/events';
 
 const props = defineProps({
   date: {
     type: Date,
+    default: () => new Date()
   }
 })
 
@@ -41,9 +42,11 @@ const title = ref('')
 const description = ref('')
 
 function addEvent() {
-  useEventsStore.ADD_EVENT(props.date.toLocaleDateString(), title.value, description.value)
-  title.value = ''
-  description.value = ''
+  if (props.date) {
+    useEventsStore.ADD_EVENT(props.date.toLocaleDateString(), title.value, description.value)
+    title.value = ''
+    description.value = ''
+  }
 }
 </script>
 
